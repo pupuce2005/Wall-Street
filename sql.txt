@@ -45,6 +45,27 @@ ALTER TABLE IF EXISTS public.purchase
     OWNER to postgres;
 
 
+
+CREATE TABLE public.sell
+(
+    sell_id integer NOT NULL,
+    action_id text,
+    sell_date date,
+    share_price double precision,
+    share_number double precision,
+    ht double precision,
+    sell_fees double precision,
+    ttc double precision,
+    sell_change double precision,
+    chf double precision,
+    PRIMARY KEY (sell_id)
+);
+
+ALTER TABLE IF EXISTS public.sell
+    OWNER to postgres;
+
+
+
 INSERT INTO public.action(
 	unik_id, id, name, currency) VALUES
 	(1,'AAPL','Apple','USD'),
@@ -62,3 +83,8 @@ INSERT INTO public.purchase(
 	(3, 'VUSD', '2024-04-04', 99.0225, 1, 99.0225, 0.15, 99.17, 0.915059, 90.75),
 	(4, 'TSM', '2024-05-02', 134.76, 0.25, 33.69, 0.05, 33.74, 0.922475, 31.12),
 	(5, 'ABBN', '2024-06-03', 49.78, 2, 99.56, 0.05, 99.61, 1, 99.61);
+
+
+INSERT INTO public.sell(
+	sell_id, action_id, sell_date, share_price, share_number, ht, sell_fees, ttc, sell_change, chf) VALUES 
+	(1, 'ABBN', '2024-06-05', 50, 1, 50, 1.04, 50.04, 1, 50.04);
