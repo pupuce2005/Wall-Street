@@ -3,10 +3,7 @@ include './inc/db_connect.php';
 include './inc/request_sql.php';
 include './inc/header.php';
 
-$db = connect_DB('action');
-
-$query = getList('action');
-$result = pg_query($db, $query);
+$result = pg_query(connect_DB('action'), getList('action'));
 ?>
 
 <!DOCTYPE html>
@@ -30,18 +27,17 @@ $result = pg_query($db, $query);
         while ($row = pg_fetch_assoc($result)) {
             echo "<tr>";
             echo "<td>" . htmlspecialchars($row["unik_id"]) . "</td>";
-            echo "<td>" . htmlspecialchars($row["id"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["action_id"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["name"]) . "</td>";
-            echo "<td>" . htmlspecialchars($row["name"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["share_number"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["currency"]) . "</td>";
-            echo "<td><a href='edit_record.php?unik_id=" . htmlspecialchars($row["unik_id"]) . "'>✏️</a> | <a href='delete_record.php?unik_id=" . htmlspecialchars($row["unik_id"]) . "'>🚮</a></td>";
+            echo "<td><a href='share.php?unik_id=" . htmlspecialchars($row["unik_id"]) . "'>🔍</a> | <a href='edit_record.php?unik_id=" . htmlspecialchars($row["unik_id"]) . "'>✏️</a> | <a href='delete_record.php?unik_id=" . htmlspecialchars($row["unik_id"]) . "'>🚮</a></td>";
             echo "</tr>";
         }
         echo "</table>";
     } else {
         echo "<p>0 résultats</p>";
     }
-    pg_close($db);
     ?>
 
 </body>

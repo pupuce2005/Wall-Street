@@ -39,8 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['share_price']>0) {
     } else {
         echo "Erreur: " . pg_last_error($db_insert);
     }
-
-    pg_close($db_insert);
 }
 $_POST=null;
 ?>

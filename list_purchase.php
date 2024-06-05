@@ -3,10 +3,7 @@ include './inc/db_connect.php';
 include './inc/request_sql.php';
 include './inc/header.php';
 
-$db = connect_DB('action');
-
-$query = getList('purchase');
-$result = pg_query($db, $query);
+$result = pg_query(connect_DB('action'), getList('purchase'));
 ?>
 
 <!DOCTYPE html>
@@ -47,5 +44,4 @@ if (pg_num_rows($result) > 0) {
 } else {
     echo "0 résultats";
 }
-pg_close($db);
 ?>

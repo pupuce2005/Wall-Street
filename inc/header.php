@@ -7,4 +7,9 @@
         $header .= '</ul></nav></header>';
         return $header;
     }
+
+    function getFooter(){
+        $footer = '';
+        return $footer;
+    }
 ?>
