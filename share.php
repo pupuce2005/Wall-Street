@@ -27,14 +27,24 @@
 
 <body>
     <?php echo getHeader();?>
-    <h2>Liste des Transaction</h2>
+
 
     <?php
     if (pg_num_rows($result) > 0) {
+        echo '<h2>Liste des Transaction pour : '.$_GET['name'].'</h2>';
         echo "<table><tr><th>UNIK</th><th>ID</th><th>Nom</th><th>Devise</th><th>Transaction ID</th><th>Date d'Achat</th><th>Prix par Action</th><th>Nombre</th><th>Total Devise HT</th><th>Frais d'Achat</th><th>Total Devise TTC</th><th>change</th><th>Total CHF</th><th>Actions</th></tr>";
         while($row = pg_fetch_assoc($result)) {
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($row["type"]) . "</td>";
+            
+            $purchase=false;
+            if(htmlspecialchars($row["type"])==='purchase'){
+                $purchase=true;}
+
+                
+            if($purchase){echo '<tr class="purchase">';}
+            else{echo '<tr class="sell">';}
+
+            if($purchase){echo '<td>+</td>';}
+            else{echo '<td>-</td>';}
             echo "<td>" . htmlspecialchars($row["id"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["name"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["currency"]) . "</td>";

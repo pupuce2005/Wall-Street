@@ -24,7 +24,7 @@ $result = pg_query(connect_DB('action'), getList('purchase'));
 if (pg_num_rows($result) > 0) {
     echo "<table><tr><th>UNIK</th><th>ID</th><th>Nom</th><th>Devise</th><th>Date d'Achat</th><th>Prix par Action</th><th>Nombre</th><th>Total Devise HT</th><th>Frais d'Achat</th><th>Total Devise TTC</th><th>change</th><th>Total CHF</th><th>Actions</th></tr>";
     while($row = pg_fetch_assoc($result)) {
-        echo "<tr>";
+        echo "<tr id=".htmlspecialchars($row["purchase_id"]).">";
         echo "<td>" . htmlspecialchars($row["purchase_id"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["id"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["name"]) . "</td>";

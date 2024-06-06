@@ -33,7 +33,7 @@ nav ul li a:hover {
     color: #f1f1f1;
 }
 
-table {
+ table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px auto;
@@ -46,14 +46,6 @@ th, td {
 th {
     background-color: #f2f2f2;
     font-weight: bold;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:hover {
-    background-color: #f1f1f1;
 }
 
 a {
@@ -84,4 +76,11 @@ input[type="submit"]:hover {
 input[type="submit"]:active {
     background: linear-gradient(to right, #1e40af, #5b21b6); /* Couleurs plus sombres pour l'activation */
     transform: scale(0.95);
+}
+
+.purchase{
+    background-color: rgb(69, 238, 111);
+}
+.sell{
+    background-color: rgb(235, 83, 83);
 }

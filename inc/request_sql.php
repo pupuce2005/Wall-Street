@@ -35,7 +35,7 @@
 
     function getTransaction($id){
         return "select type, unik_id, id, name, currency, purchase_id as transaction_id, purchase_date as transaction_date, share_price, share_number, ht, purchase_fees as transaction_fees, ttc, purchase_change as transaction_change, chf from (
-            select 'Achat' as type, * from action inner join purchase on action.id = purchase.action_id UNION ALL select 'Vente' as type, * from action inner join sell on action.id = sell.action_id )vue where unik_id = $id";
+            select 'purchase' as type, * from action inner join purchase on action.id = purchase.action_id UNION ALL select 'sell' as type, * from action inner join sell on action.id = sell.action_id )vue where unik_id = $id";
     }
     
 ?>
