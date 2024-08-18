@@ -3,11 +3,11 @@
     include './inc/request_sql.php';
     include './inc/header.php';
 
-    $purchase_id_result = pg_query(connect_DB('action'), getCount('action'));
-    $purchase_id_row = pg_fetch_assoc($purchase_id_result);
-    $purchase_id = htmlspecialchars($purchase_id_row['purchase_id']);
+    $share_id_result = pg_query(connect_DB('action'), getCount('action'));
+    $share_id_row = pg_fetch_assoc($share_id_result);
+    $share_id = htmlspecialchars($share_id_row['unik_id']);
 
-    if(isset($_GET['unik_id']) and $_GET['unik_id']>=1 and $_GET['unik_id']<$purchase_id){
+    if(isset($_GET['unik_id']) and $_GET['unik_id']>=1 and $_GET['unik_id']<$share_id){
         $result = pg_query(connect_DB('action'), getTransaction($_GET['unik_id']));
     }
     else{
@@ -32,14 +32,12 @@
     <?php
     if (pg_num_rows($result) > 0) {
         echo '<h2>Liste des Transaction pour : '.$_GET['name'].'</h2>';
-        echo "<table><tr><th>UNIK</th><th>ID</th><th>Nom</th><th>Devise</th><th>Transaction ID</th><th>Date d'Achat</th><th>Prix par Action</th><th>Nombre</th><th>Total Devise HT</th><th>Frais d'Achat</th><th>Total Devise TTC</th><th>change</th><th>Total CHF</th><th>Actions</th></tr>";
+        echo "<table><tr><th></th><th>ID</th><th>Nom</th><th>Devise</th><th>Transaction ID</th><th>Date d'Achat</th><th>Prix par Action</th><th>Nombre</th><th>Total Devise HT</th><th>Frais d'Achat</th><th>Total Devise TTC</th><th>change</th><th>Total CHF</th><th>Actions</th></tr>";
         while($row = pg_fetch_assoc($result)) {
             
             $purchase=false;
-            if(htmlspecialchars($row["type"])==='purchase'){
-                $purchase=true;}
+            if(htmlspecialchars($row["type"])==='purchase'){$purchase=true;}
 
-                
             if($purchase){echo '<tr class="purchase">';}
             else{echo '<tr class="sell">';}
 

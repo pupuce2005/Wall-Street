@@ -2,7 +2,7 @@
     function getCount($table){
         switch ($table) {
             case 'action':
-                return "SELECT count(purchase_id) + 1 as purchase_id FROM purchase";
+                return "SELECT count(unik_id) + 1 as unik_id FROM action";
                 break;
             case 'purchase':
                 return "SELECT count(purchase_id) + 1 as purchase_id FROM purchase";
@@ -16,12 +16,14 @@
     function getList($table){
         switch ($table) {
             case 'action':
-                return "SELECT unik_id, name, currency,  action_id, sum(share_number) as share_number FROM (
+                return "SELECT unik_id, id, name, currency, sum(share_number) as share_number FROM (
                             SELECT action.*, action_id, share_number from purchase inner join action on id = action_id
                             UNION ALL
                             SELECT action.*, action_id, -share_number from sell inner join action on id = action_id
+                            UNION ALL
+	                        SELECT action.*,'',0 from action where action.id not in (select purchase.action_id from purchase)
                         )vue
-                        group by unik_id, name, currency, action_id
+                        group by unik_id, id, name, currency
                         order by unik_id";
                 break;
             case 'purchase':
@@ -38,4 +40,17 @@
             select 'purchase' as type, * from action inner join purchase on action.id = purchase.action_id UNION ALL select 'sell' as type, * from action inner join sell on action.id = sell.action_id )vue where unik_id = $id";
     }
     
+    function getdetail($table,$id){
+        switch ($table) {
+            case 'action':
+                return "SELECT * FROM action where unik_id = $id";
+                break;
+            case 'purchase':
+                return "SELECT count(purchase_id) + 1 as purchase_id FROM purchase";
+                break;
+            case 'sell':
+                return "SELECT count(purchase_id) + 1 as purchase_id FROM purchase";
+                break;
+        }
+    }
 ?>

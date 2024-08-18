@@ -3,41 +3,29 @@ include './inc/db_connect.php';
 include './inc/request_sql.php';
 include './inc/header.php';
 
-$result_ID = pg_query(connect_DB('action'), "SELECT id FROM action");
-$purchase_id_result = pg_query(connect_DB('action'), getCount('action'));
-$purchase_id_row = pg_fetch_assoc($purchase_id_result);
-$purchase_id = htmlspecialchars($purchase_id_row['purchase_id']);
+$share_id_result = pg_query(connect_DB('action'), getCount('action'));
+$share_id_row = pg_fetch_assoc($share_id_result);
+$share_id = htmlspecialchars($share_id_row['unik_id']);
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['share_price']>0) {
-    $db_insert = connect_DB('action');
+if ($_SERVER["REQUEST_METHOD"] == "POST" &&  strlen($_POST['id'])>=2 &&  strlen($_POST['name'])>=2 ) {
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $currency = $_POST['currency'];
 
-    $action_id = $_POST['action_id'];
-    $purchase_date = $_POST['purchase_date'];
-    $share_price = $_POST['share_price'];
-    $share_number = $_POST['share_number'];
-    $ht = $share_price * $share_number;
-    $purchase_fees = $_POST['purchase_fees'];
-    $ttc = $ht+$purchase_fees;
-    $purchase_change = $_POST['purchase_change'];
-    $chf = $ttc*$purchase_change;
+    $query = "INSERT INTO action (unik_id, id, name, currency)
+              VALUES ($share_id, '$id', '$name', '$currency')";
 
-    $query = "INSERT INTO purchase (purchase_id, action_id, purchase_date, share_price, share_number, ht, purchase_fees, ttc, purchase_change, chf)
-              VALUES ($purchase_id, '$action_id', '$purchase_date', $share_price, $share_number, $ht, $purchase_fees, $ttc, $purchase_change, $chf)";
-
-    $result = pg_query($db_insert, $query);
+    $result = pg_query(connect_DB('action'), $query);
 
     if ($result) {
         echo "Nouvel enregistrement créé avec succès";
-        $_POST['$action_id']=null;
-        $_POST['purchase_date']=null;
-        $_POST['share_price']=0;
-        $_POST['share_number']=0;
-        $_POST['purchase_fees']=0;
-        $_POST['purchase_change']=0;
-        header('Location: ./list_purchase.php');
+        $_POST['id']=null;
+        $_POST['name']=null;
+        $_POST['currency']=null;
+        header('Location: ./list_share.php');
     } else {
-        echo "Erreur: " . pg_last_error($db_insert);
+        echo "Erreur";
     }
 }
 $_POST=null;
@@ -48,7 +36,7 @@ $_POST=null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire d'Achat d'Actions</title>
+    <title>Formulaire des actions</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <html>
@@ -60,37 +48,29 @@ $_POST=null;
     <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
         <table>
             <tr>
-                <td>ID</td>
-                <td><select name='action_id'>
-                        <?php
-                while ($row_ID = pg_fetch_assoc($result_ID)) { echo "<option value='" . htmlspecialchars($row_ID['id']) . "'>" . htmlspecialchars($row_ID['id']) . "</option>"; }?>
-                    </select></td>
-            </tr>
-            <tr>
-                <td>Date d'achat: </td>
-                <td><input type="date" name="purchase_date"
-                        <?php if(isset($_POST['purchase_date'])){echo 'value="'.$_POST['purchase_date'].'"';}?>></td>
-            </tr>
-            <tr>
-                <td>Prix par action: </td>
-                <td><input type="number" step="0.0001" name="share_price"
-                        <?php if(isset($_POST['share_price'])){echo 'value="'.$_POST['share_price'].'"';}?>></td>
-            </tr>
-            <tr>
-                <td>Nombre d'action: </td>
-                <td><input type="number" step="0.001" name="share_number"
-                        <?php if(isset($_POST['share_number'])){echo 'value="'.$_POST['share_number'].'"';}?>>
+                <td>ID </td>
+                <td><a><?php echo $share_id;?></a>
                 </td>
             </tr>
             <tr>
-                <td>Frais d'achat: </td>
-                <td><input type="number" step="0.01" name="purchase_fees"
-                        <?php if(isset($_POST['purchase_fees'])){echo 'value="'.$_POST['purchase_fees'].'"';}?>></td>
+                <td>Code: </td>
+                <td><input type="text" name="id" <?php if(isset($_POST['id'])){echo 'value="'.$_POST['id'].'"';}?>>
+                </td>
             </tr>
             <tr>
-                <td>Change: </td>
-                <td><input type="number" step="0.000001" name="purchase_change"
-                        <?php if(isset($_POST['purchase_change'])){echo 'value="'.$_POST['purchase_change'].'"';}?>>
+                <td>Name: </td>
+                <td><input type="text" name="name"
+                        <?php if(isset($_POST['name'])){echo 'value="'.$_POST['name'].'"';}?>>
+                </td>
+            </tr>
+            <tr>
+                <td>Currency</td>
+                <td>
+                    <select name='currency'>
+                        <option value="USD">USD</option>
+                        <option value="CHF">CHF</option>
+                        <option value="EUR">EUR</option>
+                    </select>
                 </td>
             </tr>
 
