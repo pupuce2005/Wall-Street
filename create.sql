@@ -79,7 +79,7 @@ INSERT INTO public.action(
 	(9,'EQQQ','Nasdaq','USD'),
 	(10,'LOGN','Logitech','CHF'),
     (11,'AXA','AXA SA','EUR'),
-    (11,'CS.PA','Credit Agricole','EUR');
+    (12,'CS.PA','Credit Agricole','EUR');
 
 
 
