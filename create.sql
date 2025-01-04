@@ -2,7 +2,6 @@ CREATE DATABASE action
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
-    LOCALE_PROVIDER = 'libc'
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
 
@@ -79,7 +78,10 @@ INSERT INTO public.action(
 	(9,'EQQQ','Nasdaq','USD'),
 	(10,'LOGN','Logitech','CHF'),
     (11,'AXA','AXA SA','EUR'),
-    (12,'CS.PA','Credit Agricole','EUR');
+    (12,'CS.PA','Credit Agricole','EUR'),
+    (13,'SPI','Swiss Performance Index','CHF'),
+    (14,'BMW','BMW','EUR'),
+    (15,'VW','VolksWagen','EUR');
 
 
 
@@ -96,9 +98,14 @@ INSERT INTO public.purchase(
 	(9, 'EQQQ', '2024-08-08', 438.50, 0.2, 87.7, 1.13, 88.83, 0.866948, 77.01),
 	(10, 'LOGN', '2024-08-09', 74.32, 0.5, 37.16, 1.05, 38.21, 1, 38.21),
     (11, 'AXA', '2024-08-27', 34.14, 3, 102.42, 1.46, 103.88, 0.954285, 99.13),
-    (12, 'CS.PA', '2024-10-04', 13.57, 7.4, 101.42, 1.45, 101.87, 0.947408, 96.51);
+    (12, 'CS.PA', '2024-10-04', 13.57, 7.4, 101.42, 1.45, 101.87, 0.947408, 96.51),
+    (13, 'SPI', '2024-10-28', 145.65, 1, 145.65, 1.10, 146.75, 1, 146.75),
+    (14, 'BMW', '2024-12-20', 76.44, 1, 76.44, 1.11, 77.55, 0.940268, 72.92),
+    (15, 'VW', '2024-12-20', 88.55, 1, 88.55, 1.13, 89.68, 0.940268, 84.32);
 
 
 INSERT INTO public.sell(
 	sell_id, action_id, sell_date, share_price, share_number, ht, sell_fees, ttc, sell_change, chf) VALUES 
-	(1, 'TSM', '2024-10-18', 202.89, 0.25, 50.72, 1.08, 49.64, 1, 49.64);
+	(1, 'TSM', '2024-10-18', 202.89, 0.25, 50.72, 1.08, 49.64, 1, 49.64),
+    (2, 'AAPL', '2024-12-11', 249.36, 0.5, 124.68, 1.19, 123.49, 1, 123.49),
+    (3, 'GOOG', '2024-12-11', 196.20, 0.5, 98.10, 1.15, 96.95, 1, 96.95);
